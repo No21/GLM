@@ -1,44 +1,44 @@
 package com.example.ensai.glm;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.ContactsContract;
+import android.provider.Telephony;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
-import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-
     private final int CHECK_CODE = 0x1;
-    private final int SHORT_DURATION = 1000;
+    private final int LONG_DURATION = 5000;
+    private final int SHORT_DURATION = 1200;
 
-    private Button launchPrompt, readText;
     private Lecteur speaker;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private ToggleButton toggle;
+    private CompoundButton.OnCheckedChangeListener toggleListener;
 
-        readText = (Button) findViewById(R.id.readText);
-        readText.setOnClickListener(readListener);
+    private TextView smsText;
+    private TextView smsSender;
 
-        checkTTS();
-    }
+    private BroadcastReceiver smsReceiver;
 
     private void checkTTS(){
         Intent check = new Intent();
@@ -46,63 +46,95 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(check, CHECK_CODE);
     }
 
-    View.OnClickListener readListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            speakOut();
-        }
-    };
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        checkTTS();
-    }
-
-    private void speakOut() {
-        if(!speaker.isSpeaking()) {
-            speaker.speak(readFile(R.raw.martin_luther_king));
-            speaker.pause(SHORT_DURATION);
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case CHECK_CODE: {
-                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                    speaker = new Speaker(this);
-                } else {
-                    Intent install = new Intent();
-                    install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                    startActivity(install);
-                }
+        if(requestCode == CHECK_CODE){
+            if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+                speaker = new Lecteur(this);
+            }else {
+                Intent install = new Intent();
+                install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(install);
             }
-            default:
-                break;
         }
+    }
+
+    private void initializeSMSReceiver(){
+        smsReceiver = new BroadcastReceiver(){
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                Bundle bundle = intent.getExtras();
+                if(bundle!=null){
+                    Object[] pdus = (Object[])bundle.get("pdus");
+                    for(int i=0;i<pdus.length;i++){
+                        byte[] pdu = (byte[])pdus[i];
+                        SmsMessage message = SmsMessage.createFromPdu(pdu);
+                        String text = message.getDisplayMessageBody();
+                        String sender = getContactName(message.getOriginatingAddress());
+                        speaker.pause(LONG_DURATION);
+                        speaker.speak("You have a new message from" + sender + "!");
+                        speaker.pause(SHORT_DURATION);
+                        speaker.speak(text);
+                        smsSender.setText("Message from " + sender);
+                        smsText.setText(text);
+                    }
+                }
+
+            }
+        };
+    }
+
+    private String getContactName(String phone){
+        Uri uri = Uri.withAppendedPath( ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
+        String projection[] = new String[]{ContactsContract.Data.DISPLAY_NAME};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if(cursor.moveToFirst()){
+            return cursor.getString(0);
+        }else {
+            return "unknown number";
+        }
+    }
+
+    private void registerSMSReceiver() {
+        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(smsReceiver, intentFilter);
     }
 
     @Override
-    protected void onStop() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        toggle = (ToggleButton)findViewById(R.id.speechToggle);
+        smsText = (TextView)findViewById(R.id.sms_text);
+        smsSender = (TextView)findViewById(R.id.sms_sender);
+
+        toggleListener = new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if(isChecked){
+                    speaker.allow(true);
+                    speaker.speak(getString(R.string.start_speaking));
+                }else{
+                    speaker.speak(getString(R.string.stop_speaking));
+                    speaker.allow(false);
+                }
+            }
+        };
+        toggle.setOnCheckedChangeListener(toggleListener);
+
+        checkTTS();
+        initializeSMSReceiver();
+        registerSMSReceiver();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(smsReceiver);
         speaker.destroy();
-        super.onStop();
     }
-
-    private String readFile(int rawfile) {
-        String result = new String();
-        try {
-            Resources res = getResources();
-            InputStream input_stream = res.openRawResource(rawfile);
-
-            byte[] b = new byte[input_stream.available()];
-            input_stream.read(b);
-            result = new String(b);
-        } catch (Exception e) {
-            Log.e("readFile", e.getMessage());
-        }
-        return result;
-    }
-
 }
