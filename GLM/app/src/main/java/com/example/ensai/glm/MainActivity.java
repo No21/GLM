@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
     private final int CHECK_CODE = 0x1;
     private final int LONG_DURATION = 5000;
     private final int SHORT_DURATION = 1200;
@@ -74,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
                         String text = message.getDisplayMessageBody();
                         String sender = getContactName(message.getOriginatingAddress());
                         speaker.pause(LONG_DURATION);
-                        speaker.speak("You have a new message from" + sender + "!");
+                        speaker.speak("Vous avez un message de" + sender + "!");
                         speaker.pause(SHORT_DURATION);
                         speaker.speak(text);
-                        smsSender.setText("Message from " + sender);
+                        smsSender.setText("Message de " + sender);
                         smsText.setText(text);
                     }
                 }
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+
     private String getContactName(String phone){
         Uri uri = Uri.withAppendedPath( ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
         String projection[] = new String[]{ContactsContract.Data.DISPLAY_NAME};
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if(cursor.moveToFirst()){
             return cursor.getString(0);
         }else {
-            return "unknown number";
+            return "numéro inconnu";
         }
     }
 
@@ -137,4 +139,8 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(smsReceiver);
         speaker.destroy();
     }
+
+
+
+
 }
