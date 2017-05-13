@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="${packageName}.${activityClass}"
-                android:background="#99CC00"
+                android:background="#BBACAC"
     >
 
     <TextView
@@ -14,8 +14,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/sms_label"
-        android:textColor="#ffffff"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textColor="#24445C"
+        android:textStyle="italic"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
 
     <TextView
         android:id="@+id/sms_text"
@@ -24,9 +26,10 @@
         android:layout_below="@+id/sms_sender"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="@string/none"
+        android:text=" --- "
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffff"
+        android:textColor="#24445C"
+        android:background="#CECECE"
         />
 
     <ToggleButton
@@ -35,8 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textOff="@string/speech_toggle_on"
-        android:textOn="@string/speech_toggle_off"
+        android:textOff="   LIRE LES SMS   "
+        android:textOn="   ARRETER LA LECTURE   "
+        android:background="#24445C"
+        android:textColor="#FFFFFF"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:typeface="serif"
+
         />
 
 </RelativeLayout>

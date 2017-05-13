@@ -1,5 +1,8 @@
 package com.example.ensai.glm;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -14,16 +17,17 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.app.NotificationCompat;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.io.InputStream;
-import java.util.Locale;
+import static com.example.ensai.glm.R.mipmap.ic_launcher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView smsSender;
 
     private BroadcastReceiver smsReceiver;
+
+    public int ID_NOTIFICATION = 0;
 
     private void checkTTS(){
         Intent check = new Intent();
@@ -104,6 +110,36 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(smsReceiver, intentFilter);
     }
 
+    // pour créer une notification
+    private final void createNotification(){
+        final NotificationManager mNotification = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        final Intent launchNotifiactionIntent = new Intent(this, MainActivity.class);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                001, launchNotifiactionIntent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Notification.Builder builder = new Notification.Builder(this)
+                .setWhen(System.currentTimeMillis())
+                //.setTicker("GLM")
+                .setSmallIcon(ic_launcher)
+                //.setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText("Lecture des messages en cours")
+                .setContentIntent(pendingIntent)
+                .setOngoing(true);
+
+        mNotification.notify(ID_NOTIFICATION, builder.build());
+
+    }
+
+
+    // pour supprimer une notification
+    private void deleteNotification(){
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //la suppression de la notification se fait grâce a son ID
+        notificationManager.cancel(ID_NOTIFICATION);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,16 +155,18 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                 if(isChecked){
                     speaker.allow(true);
-                    speaker.speak(getString(R.string.start_speaking));
+                    speaker.speak("Bonjour! Je vais lire vos messages!");
+                    createNotification();
+
                 }else{
-                    speaker.speak(getString(R.string.stop_speaking));
+                    speaker.speak("D'accord! Je me tais, à bientôt!");
                     speaker.allow(false);
+                    deleteNotification();
                 }
             }
         };
         toggle.setOnCheckedChangeListener(toggleListener);
-
-        checkTTS();
+      checkTTS();
         initializeSMSReceiver();
         registerSMSReceiver();
     }
@@ -139,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(smsReceiver);
         speaker.destroy();
     }
-
-
 
 
 }
