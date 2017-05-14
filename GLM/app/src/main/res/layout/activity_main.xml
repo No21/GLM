@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textOff="   LIRE LES SMS   "
+        android:textOff= "   LIRE LES SMS   "
         android:textOn="   ARRETER LA LECTURE   "
         android:background="#24445C"
         android:textColor="#FFFFFF"
@@ -47,5 +47,18 @@
         android:typeface="serif"
 
         />
+
+<!--
+
+    <ImageView
+        android:layout_width="40pt"
+        android:layout_height="60pt"
+        android:src="@mipmap/hibou_lunettes_num800"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="17dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/speechToggle" />
+-->
+
 
 </RelativeLayout>

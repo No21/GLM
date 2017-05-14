@@ -27,7 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import static com.example.ensai.glm.R.mipmap.ic_hibou;
+import static com.example.ensai.glm.R.mipmap.ic_hibou_rond;
 import static com.example.ensai.glm.R.mipmap.ic_launcher;
+import static com.example.ensai.glm.R.mipmap.ic_lunettes;
+import static com.example.ensai.glm.R.mipmap.ic_notif;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         Notification.Builder builder = new Notification.Builder(this)
                 .setWhen(System.currentTimeMillis())
                 //.setTicker("GLM")
-                .setSmallIcon(ic_launcher)
+                .setSmallIcon(ic_notif)
                 //.setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText("Lecture des messages en cours")
                 .setContentIntent(pendingIntent)
