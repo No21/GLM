@@ -26,6 +26,14 @@ import android.widget.ToggleButton;
 import java.io.InputStream;
 import java.util.Locale;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.support.v7.app.NotificationCompat;
+import static com.example.ensai.glm.R.mipmap.ic_launcher;
+import static com.example.ensai.glm.R.mipmap.ic_notif;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private final int CHECK_CODE = 0x1;
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver smsReceiver;
 
     private ArrayAdapter<Preferences> adapter;
+
+    public int ID_NOTIFICATION = 0;
 
     private void checkTTS(){
         Intent check = new Intent();
@@ -109,6 +119,29 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(smsReceiver, intentFilter);
     }
 
+    // pour créer une notification
+    private final void createNotification(){
+        final NotificationManager mNotification = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        final Intent launchNotifiactionIntent = new Intent(this, MainActivity.class);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 001, launchNotifiactionIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis())//.setTicker("GLM")
+                .setSmallIcon(ic_notif)
+                //.setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText("Lecture des messages en cours")
+                .setContentIntent(pendingIntent)
+                .setOngoing(true);
+
+        mNotification.notify(ID_NOTIFICATION, builder.build());
+    }
+
+    // pour supprimer une notification
+        private void deleteNotification(){
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //la suppression de la notification se fait grâce a son ID
+         notificationManager.cancel(ID_NOTIFICATION);
+     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,10 +157,12 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                 if(isChecked){
                     speaker.allow(true);
-                    speaker.speak(getString(R.string.start_speaking));
+                    speaker.speak("Bonjour! Je vais lire vos messages!");
+                    createNotification();
                 }else{
-                    speaker.speak(getString(R.string.stop_speaking));
+                    speaker.speak("D'accord! Je me tais, à bientôt!");
                     speaker.allow(false);
+                    deleteNotification();
                 }
             }
         };
@@ -145,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(smsReceiver);
         speaker.destroy();
     }
-
-
 
 
 }
