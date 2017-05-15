@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Lecteur speaker;
 
-    private ToggleButton toggle;
+    private Switch bouton;
+    //private ToggleButton toggle;
     private CompoundButton.OnCheckedChangeListener toggleListener;
 
     private TextView smsText;
@@ -125,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
         final Intent launchNotifiactionIntent = new Intent(this, MainActivity.class);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 001, launchNotifiactionIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis())//.setTicker("GLM")
+        Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis()).setTicker(getString(R.string.name))
                 .setSmallIcon(ic_notif)
                 //.setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText("Lecture des messages en cours")
+                .setContentText(getString(R.string.notification))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toggle = (ToggleButton)findViewById(R.id.speechToggle);
+        bouton = (Switch)findViewById(R.id.boutonSwitch);
         smsText = (TextView)findViewById(R.id.sms_text);
         smsSender = (TextView)findViewById(R.id.sms_sender);
 
@@ -157,16 +159,18 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                 if(isChecked){
                     speaker.allow(true);
-                    speaker.speak("Bonjour! Je vais lire vos messages!");
+                    speaker.speak(getString(R.string.start_speaking));
+                    bouton.setText(getString(R.string.on));
                     createNotification();
                 }else{
-                    speaker.speak("D'accord! Je me tais, à bientôt!");
+                    speaker.speak(getString(R.string.stop_speaking));
                     speaker.allow(false);
+                    bouton.setText(getString(R.string.off));
                     deleteNotification();
                 }
             }
         };
-        toggle.setOnCheckedChangeListener(toggleListener);
+        bouton.setOnCheckedChangeListener(toggleListener);
 
         checkTTS();
         initializeSMSReceiver();

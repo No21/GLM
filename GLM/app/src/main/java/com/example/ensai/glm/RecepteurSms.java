@@ -14,9 +14,6 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by ensai on 09/05/17.
- */
 
 public class RecepteurSms extends BroadcastReceiver {
 
@@ -45,11 +42,11 @@ public class RecepteurSms extends BroadcastReceiver {
 
                         Log.i("SmsReceiver", "De: "+ senderNum + "; message: " + message);
 
-                        // Show Alert
+                        /*// Show Alert
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(context,
                                 "De: "+ senderNum + ", message: " + message, duration);
-                        toast.show();
+                        toast.show();*/
 
 
                     } // end for loop

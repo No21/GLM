@@ -1,10 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#BBACAC"
     >
+
 
     <TextView
         android:id="@+id/sms_sender"
@@ -26,13 +25,13 @@
         android:layout_below="@+id/sms_sender"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text=" --- "
+        android:text="@string/none"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#24445C"
         android:background="#CECECE"
         />
 
-    <ToggleButton
+<!--    <ToggleButton
         android:id="@+id/speechToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,24 +43,37 @@
         android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        android:typeface="serif"
+        android:typeface="serif"-->
 
-        />
+
     <Button
         android:id="@+id/preferences"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Préférences"
+        android:text="@string/pref"
         android:background="#24445C"
         android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
         android:typeface="serif"
-        android:layout_alignStart="@+id/speechToggle"
-        android:layout_alignEnd="@+id/speechToggle"
-        android:layout_below="@+id/speechToggle"
-        android:layout_marginTop="10dp"
-/>
+        android:layout_marginBottom="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/off"
+        android:textSize="10pt"
+        android:id="@+id/boutonSwitch"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_marginBottom="151dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
 
     <!--
 
