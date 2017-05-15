@@ -6,6 +6,8 @@
     <string name="speech_toggle_on">START</string>
     <string name="speech_toggle_off">STOP</string>
 
-    <string name="start_speaking">"Bonjour! Je vais lire vos messages!"</string>
-    <string name="stop_speaking">Daccord. Je méteins.</string>
+    <string name="start_speaking">Bonjour</string>
+    <string name="stop_speaking">Au revoir</string>
+    <string name="langueFR">Français</string>
+    <string name="langueUK">Anglais (UK)</string>
 </resources>

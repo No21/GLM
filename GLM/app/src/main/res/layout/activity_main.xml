@@ -47,18 +47,33 @@
         android:typeface="serif"
 
         />
+    <Button
+        android:id="@+id/preferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Préférences"
+        android:background="#24445C"
+        android:textColor="#FFFFFF"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_alignStart="@+id/speechToggle"
+        android:layout_alignEnd="@+id/speechToggle"
+        android:layout_below="@+id/speechToggle"
+        android:layout_marginTop="10dp"
+/>
 
-<!--
+    <!--
 
-    <ImageView
-        android:layout_width="40pt"
-        android:layout_height="60pt"
-        android:src="@mipmap/hibou_lunettes_num800"
-        android:layout_marginStart="11dp"
-        android:layout_marginBottom="17dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/speechToggle" />
--->
+        <ImageView
+            android:layout_width="40pt"
+            android:layout_height="60pt"
+            android:src="@mipmap/hibou_lunettes_num800"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="17dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/speechToggle" />
+    -->
 
 
 </RelativeLayout>
