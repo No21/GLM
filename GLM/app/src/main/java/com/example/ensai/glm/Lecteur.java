@@ -3,6 +3,7 @@ package com.example.ensai.glm;
 import android.content.Context;
 import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
+import android.widget.RadioButton;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -21,6 +22,8 @@ public class Lecteur implements TextToSpeech.OnInitListener {
 
     private boolean allowed = false;
 
+    RadioButton rb;
+
     public Lecteur(Context context){
         tts = new TextToSpeech(context, this);
     }
@@ -38,7 +41,7 @@ public class Lecteur implements TextToSpeech.OnInitListener {
         if(status == TextToSpeech.SUCCESS){
             // Change this to match your
             // locale
-            tts.setLanguage( Locale.FRANCE);
+            tts.setLanguage(Locale.FRANCE);
             ready = true;
         }else{
             ready = false;

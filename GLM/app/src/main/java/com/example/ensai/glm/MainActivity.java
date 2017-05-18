@@ -12,26 +12,19 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.speech.tts.TextToSpeech;
 import android.telephony.SmsMessage;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.io.InputStream;
-import java.util.Locale;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.support.v7.app.NotificationCompat;
-import static com.example.ensai.glm.R.mipmap.ic_launcher;
+import android.widget.Toast;
+
 import static com.example.ensai.glm.R.mipmap.ic_notif;
 
 
@@ -41,108 +34,22 @@ public class MainActivity extends AppCompatActivity {
     private final int LONG_DURATION = 5000;
     private final int SHORT_DURATION = 1200;
 
-    private Lecteur speaker;
-
     private Switch bouton;
     //private ToggleButton toggle;
     private CompoundButton.OnCheckedChangeListener toggleListener;
 
     private TextView smsText;
     private TextView smsSender;
+    private  String senderNum;
+    private  String sender;
 
     private BroadcastReceiver smsReceiver;
 
-    private ArrayAdapter<Preferences> adapter;
+    private Lecteur speaker;
 
     public int ID_NOTIFICATION = 0;
 
-    private void checkTTS(){
-        Intent check = new Intent();
-        check.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(check, CHECK_CODE);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == CHECK_CODE){
-            if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
-                speaker = new Lecteur(this);
-            }else {
-                Intent install = new Intent();
-                install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                startActivity(install);
-            }
-        }
-    }
-
-    private void initializeSMSReceiver(){
-        smsReceiver = new BroadcastReceiver(){
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                Bundle bundle = intent.getExtras();
-                if(bundle!=null){
-                    Object[] pdus = (Object[])bundle.get("pdus");
-                    for(int i=0;i<pdus.length;i++){
-                        byte[] pdu = (byte[])pdus[i];
-                        SmsMessage message = SmsMessage.createFromPdu(pdu);
-                        String text = message.getDisplayMessageBody();
-                        String sender = getContactName(message.getOriginatingAddress());
-
-                        speaker.pause(LONG_DURATION);
-                        speaker.speak("Message de" + sender);
-                        speaker.pause(SHORT_DURATION);
-                        speaker.speak(text);
-
-                        smsSender.setText("Message de " + sender);
-                        smsText.setText(text);
-                    }
-                }
-
-            }
-        };
-    }
-
-
-    private String getContactName(String phone){
-        Uri uri = Uri.withAppendedPath( ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
-        String projection[] = new String[]{ContactsContract.Data.DISPLAY_NAME};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if(cursor.moveToFirst()){
-            return cursor.getString(0);
-        }else {
-            return "numéro inconnu";
-        }
-    }
-
-    private void registerSMSReceiver() {
-        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        registerReceiver(smsReceiver, intentFilter);
-    }
-
-    // pour créer une notification
-    private final void createNotification(){
-        final NotificationManager mNotification = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        final Intent launchNotifiactionIntent = new Intent(this, MainActivity.class);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 001, launchNotifiactionIntent, PendingIntent.FLAG_ONE_SHOT);
-
-        Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis()).setTicker(getString(R.string.name))
-                .setSmallIcon(ic_notif)
-                //.setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText(getString(R.string.notification))
-                .setContentIntent(pendingIntent)
-                .setOngoing(true);
-
-        mNotification.notify(ID_NOTIFICATION, builder.build());
-    }
-
-    // pour supprimer une notification
-        private void deleteNotification(){
-        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        //la suppression de la notification se fait grâce a son ID
-         notificationManager.cancel(ID_NOTIFICATION);
-     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     speaker.allow(true);
                     speaker.speak(getString(R.string.start_speaking));
-                    bouton.setText(getString(R.string.on));
+                    //bouton.setText(getString(R.string.on));
                     createNotification();
                 }else{
                     speaker.speak(getString(R.string.stop_speaking));
                     speaker.allow(false);
-                    bouton.setText(getString(R.string.off));
+                    //bouton.setText(getString(R.string.off));
                     deleteNotification();
                 }
             }
@@ -175,8 +82,103 @@ public class MainActivity extends AppCompatActivity {
         checkTTS();
         initializeSMSReceiver();
         registerSMSReceiver();
-
     }
+
+
+    private void checkTTS(){
+        Intent check = new Intent();
+        check.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(check, CHECK_CODE);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CHECK_CODE){
+            if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+                speaker = new Lecteur(this);
+            }else {
+                Intent install = new Intent();
+                install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(install);
+            }
+        }
+    }
+
+
+    private void initializeSMSReceiver(){
+        smsReceiver = new BroadcastReceiver(){
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                SmsMessage[] smsMessage = Telephony.Sms.Intents.getMessagesFromIntent(intent);
+                StringBuilder messageBody = new StringBuilder( smsMessage.length-1 );
+                for (int i=0; i < smsMessage.length; i++){
+                    messageBody.append( smsMessage[i].getDisplayMessageBody()) ;
+                }
+                String allMessage = messageBody.toString();
+                senderNum = smsMessage[0].getDisplayOriginatingAddress();
+                sender = getContactName(smsMessage[0].getDisplayOriginatingAddress());
+
+                speaker.pause(LONG_DURATION);
+                speaker.speak("Message de" + sender);
+                speaker.pause(SHORT_DURATION);
+                speaker.speak(allMessage);
+
+                smsSender.setText("Message de " + sender);
+                smsText.setText(allMessage);
+
+            }
+        };
+    }
+
+
+    private String getContactName(String phone){
+        Uri uri = Uri.withAppendedPath( ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
+        String projection[] = new String[]{ContactsContract.Data.DISPLAY_NAME};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if(cursor.moveToFirst()){
+            return cursor.getString(0);
+        }else {
+            return senderNum;
+        }
+    }
+
+    private void registerSMSReceiver() {
+        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(smsReceiver, intentFilter);
+    }
+    // pour créer une notification
+    private final void createNotification(){
+        final NotificationManager mNotification = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        final Intent launchNotifiactionIntent = new Intent(this, MainActivity.class);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 001, launchNotifiactionIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis()).setTicker(getString(R.string.name))
+                .setSmallIcon(ic_notif)
+                //.setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText(getString(R.string.notification))
+                .setContentIntent(pendingIntent)
+                .setOngoing(true);
+
+        mNotification.notify(ID_NOTIFICATION, builder.build());
+    }
+
+    // pour supprimer une notification
+    private void deleteNotification(){
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //la suppression de la notification se fait grâce a son ID
+        notificationManager.cancel(ID_NOTIFICATION);
+    }
+
+    public void openPrefer(View v) {
+        //Toast.makeText(this,"Quelle Tâche !",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, Prefer.class);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -184,6 +186,5 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(smsReceiver);
         speaker.destroy();
     }
-
 
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#BBACAC">
+
+    <TextView
+        android:id="@+id/textLangues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Langue de lecture des messages :"
+        android:layout_marginTop="100dp"/>
+
+
+    <RadioGroup
+        android:id="@+id/radioLanguesGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textLangues">
+
+        <RadioButton
+            android:id="@+id/radioFR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/langueFR"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioUK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/langueUK"/>
+
+    </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/aide1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioLanguesGroup"
+        android:layout_centerHorizontal="true"
+        android:text="En cas de problème :"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/aide2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aide1"
+        android:layout_centerHorizontal="true"
+        android:text="- Avez-vous pensé à monter le son de votre appareil ?"
+        android:layout_marginTop="10dp"/>
+
+
+    <Button
+        android:id="@+id/buttonOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Ok"
+        android:background="#24445C"
+        android:textColor="#FFFFFF"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:onClick="retourAppli"/>
+
+</RelativeLayout>

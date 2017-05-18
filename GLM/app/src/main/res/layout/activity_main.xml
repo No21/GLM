@@ -45,6 +45,18 @@
         android:textStyle="bold"
         android:typeface="serif"-->
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="ON"
+        android:textOff="OFF"
+        android:textSize="10pt"
+        android:id="@+id/boutonSwitch"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_marginBottom="151dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/preferences"
@@ -58,20 +70,10 @@
         android:typeface="serif"
         android:layout_marginBottom="58dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="openPrefer"/>
 
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/off"
-        android:textSize="10pt"
-        android:id="@+id/boutonSwitch"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:layout_marginBottom="151dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
 
 
