@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.telephony.SmsMessage;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private Lecteur speaker;
 
     public int ID_NOTIFICATION = 0;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +82,13 @@ public class MainActivity extends AppCompatActivity {
         registerSMSReceiver();
     }
 
+
+  @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
     private void checkTTS(){
         Intent check = new Intent();
@@ -173,9 +178,14 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.cancel(ID_NOTIFICATION);
     }
 
-    public void openPrefer(View v) {
+    public void openPrefer() {
         //Toast.makeText(this,"Quelle Tâche !",Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, Prefer.class);
+        startActivity(intent);
+    }
+
+    public void openInfo() {
+        Intent intent = new Intent(this, Info.class);
         startActivity(intent);
     }
 
@@ -186,5 +196,23 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(smsReceiver);
         speaker.destroy();
     }
+
+    //gère le click sur une action de l'ActionBar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                openPrefer();
+                return true;
+            case R.id.action_image:
+                openInfo();
+                return true;
+            default:
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 }

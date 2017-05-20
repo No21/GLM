@@ -1,8 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#BBACAC"
     >
+
+    <android.support.v7.widget.ActionBarContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v7.widget.ActionBarContainer>
 
 
     <TextView
@@ -57,7 +63,7 @@
         android:layout_marginBottom="151dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
+<!--
     <Button
         android:id="@+id/preferences"
         android:layout_width="wrap_content"
@@ -70,24 +76,10 @@
         android:typeface="serif"
         android:layout_marginBottom="58dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="openPrefer"/>
+        android:layout_centerHorizontal="true" />
 
-
-
-
-
-    <!--
-
-        <ImageView
-            android:layout_width="40pt"
-            android:layout_height="60pt"
-            android:src="@mipmap/hibou_lunettes_num800"
-            android:layout_marginStart="11dp"
-            android:layout_marginBottom="17dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/speechToggle" />
     -->
+
 
 
 </RelativeLayout>
