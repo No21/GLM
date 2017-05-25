@@ -31,9 +31,11 @@ public class RecepteurSms extends BroadcastReceiver {
             allMessage = messageBody.toString();
             sender = smsMessage[0].getDisplayOriginatingAddress();
 
-            Toast.makeText(context,"Message de :"+sender+"\n"+'"'+allMessage+'"', Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,"Message de :"+sender+"\n"+'"'+allMessage+'"', Toast.LENGTH_LONG).show();
 
         }
     }
+
+
 }
 

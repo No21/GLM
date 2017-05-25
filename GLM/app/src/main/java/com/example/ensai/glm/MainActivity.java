@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView smsSender;
     private  String senderNum;
     private  String sender;
+    // je stocke le sms pur pouvoir le répéter dans le main
+    //private  String sms;
 
     private BroadcastReceiver smsReceiver;
 
@@ -65,12 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     speaker.allow(true);
                     speaker.speak(getString(R.string.start_speaking));
-                    //bouton.setText(getString(R.string.on));
                     createNotification();
                 }else{
                     speaker.speak(getString(R.string.stop_speaking));
                     speaker.allow(false);
-                    //bouton.setText(getString(R.string.off));
                     deleteNotification();
                 }
             }
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                 smsSender.setText("Message de " + sender);
                 smsText.setText(allMessage);
+                //sms=allMessage;
 
             }
         };
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         Notification.Builder builder = new Notification.Builder(this).setWhen(System.currentTimeMillis()).setTicker(getString(R.string.name))
                 .setSmallIcon(ic_notif)
-                //.setContentTitle(getResources().getString(R.string.app_name))
+                .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(getString(R.string.notification))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
@@ -212,6 +213,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+/*
+    //pour répéter
+    public void repeteSMS(){
+        speaker.speak("Message de" + sender);
+        speaker.pause(SHORT_DURATION);
+        speaker.speak(sms);
+
+    }*/
+
 
 
 

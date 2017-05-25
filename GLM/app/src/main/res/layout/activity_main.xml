@@ -37,25 +37,23 @@
         android:background="#CECECE"
         />
 
-<!--    <ToggleButton
-        android:id="@+id/speechToggle"
+    <Button
+        android:id="@+id/repeter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textOff= "   LIRE LES SMS   "
-        android:textOn="   ARRETER LA LECTURE   "
-        android:background="#24445C"
-        android:textColor="#FFFFFF"
+        android:textColor="@android:color/black"
+        android:background="#BBACAC"
+        android:text="@string/rep"
+        android:textSize="6pt"
+        android:drawableBottom="@drawable/ic_replay_black_24dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:typeface="serif"-->
+        android:onClick="repeteSMS"/>
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textOn="ON"
-        android:textOff="OFF"
         android:textSize="10pt"
         android:id="@+id/boutonSwitch"
         android:textStyle="bold"
@@ -63,22 +61,6 @@
         android:layout_marginBottom="151dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-<!--
-    <Button
-        android:id="@+id/preferences"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pref"
-        android:background="#24445C"
-        android:textColor="#FFFFFF"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:layout_marginBottom="58dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    -->
 
 
 

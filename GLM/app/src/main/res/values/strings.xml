@@ -13,4 +13,5 @@
     <string name="on">on</string>
     <string name="off">off</string>
     <string name="info">Bonjour! \n\nMon nom est GLM! \nJe suis le Gestionnaire de Lecture de vos Messages, toujours prêt à faciliter votre quotidien.</string>
+    <string name="rep">Répéter</string>
 </resources>
