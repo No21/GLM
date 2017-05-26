@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Langue de lecture des messages :"
+        android:text="@string/languePref"
         android:layout_marginTop="100dp"/>
 
 
@@ -25,13 +25,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/langueFR"
-            android:checked="true"/>
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
-            android:id="@+id/radioUK"
+            android:id="@+id/radioEN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/langueUK"/>
+            android:text="@string/langueEN"
+            android:onClick="onRadioButtonClicked"/>
 
     </RadioGroup>
 
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioLanguesGroup"
         android:layout_centerHorizontal="true"
-        android:text="En cas de problème :"
+        android:text="@string/pb"
         android:layout_marginTop="100dp"/>
 
     <TextView
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/aide1"
         android:layout_centerHorizontal="true"
-        android:text="- Avez-vous pensé à monter le son de votre appareil ?"
+        android:text="@string/pb1"
         android:layout_marginTop="10dp"/>
 
 

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GLM</string>
-    <string name="sms_label">Numéro</string>
+    <string name="numero">Numéro</string>
     <string name="none">---</string>
+    <string name="messageDe">Message de : </string>
+
     <string name="pref">Préférences</string>
     <string name="notification">Lecture des messages en cours</string>
     <string name="name">GLM</string>
+
     <string name="start_speaking">"Bonjour! Je vais lire vos messages!"</string>
     <string name="stop_speaking">"D'accord! Je me tais, à bientôt!"</string>
+    <string name="languePref">Langue de lecture des messages :</string>
+    <string name="langue">fr</string>
     <string name="langueFR">FRANCE</string>
-    <string name="langueUK">ENGLISH</string>
+    <string name="langueEN">ENGLISH</string>
+    <string name="pb">En cas de problème :</string>
+    <string name="pb1">- Avez-vous pensé à monter le son de votre appareil ?</string>
     <string name="on">on</string>
     <string name="off">off</string>
+
     <string name="info">Bonjour! \n\nMon nom est GLM! \nJe suis le Gestionnaire de Lecture de vos Messages, toujours prêt à faciliter votre quotidien.</string>
-    <string name="rep">Répéter</string>
+    <string name="propose">Proposé par No &amp; Jo</string>
 </resources>

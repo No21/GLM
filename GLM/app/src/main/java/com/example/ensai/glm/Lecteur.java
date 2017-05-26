@@ -1,9 +1,15 @@
 package com.example.ensai.glm;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
+import android.os.Build;
 import android.speech.tts.TextToSpeech;
-import android.widget.RadioButton;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,7 +28,6 @@ public class Lecteur implements TextToSpeech.OnInitListener {
 
     private boolean allowed = false;
 
-    RadioButton rb;
 
     public Lecteur(Context context){
         tts = new TextToSpeech(context, this);
@@ -36,14 +41,17 @@ public class Lecteur implements TextToSpeech.OnInitListener {
         this.allowed = allowed;
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onInit(int status) {
-        if(status == TextToSpeech.SUCCESS){
+        if (status == TextToSpeech.SUCCESS) {
             // Change this to match your
             // locale
-            tts.setLanguage(Locale.FRANCE);
+            //tts.setLanguage( Locale.ENGLISH);
+            tts.setLanguage(Locale.getDefault());
             ready = true;
-        }else{
+        } else {
             ready = false;
         }
     }

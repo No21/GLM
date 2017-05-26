@@ -3,6 +3,7 @@ package com.example.ensai.glm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -24,6 +25,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import static com.example.ensai.glm.R.mipmap.ic_notif;
 
@@ -51,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
     public int ID_NOTIFICATION = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        this.setContentView( R.layout.activity_main );
 
         bouton = (Switch)findViewById(R.id.boutonSwitch);
         smsText = (TextView)findViewById(R.id.sms_text);
@@ -80,10 +84,15 @@ public class MainActivity extends AppCompatActivity {
         checkTTS();
         initializeSMSReceiver();
         registerSMSReceiver();
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
-  @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //ajoute les entrées de menu_test à l'ActionBar
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -128,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 sender = getContactName(smsMessage[0].getDisplayOriginatingAddress());
 
                 speaker.pause(LONG_DURATION);
-                speaker.speak("Message de" + sender);
+                speaker.speak(R.string.messageDe + sender);
                 speaker.pause(SHORT_DURATION);
                 speaker.speak(allMessage);
 
-                smsSender.setText("Message de " + sender);
+                smsSender.setText(R.string.messageDe + sender);
                 smsText.setText(allMessage);
                 //sms=allMessage;
 
@@ -180,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openPrefer() {
-        //Toast.makeText(this,"Quelle Tâche !",Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, Prefer.class);
         startActivity(intent);
     }
@@ -189,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Info.class);
         startActivity(intent);
     }
+
 
 
     @Override
