@@ -41,14 +41,12 @@ public class Lecteur implements TextToSpeech.OnInitListener {
         this.allowed = allowed;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             // Change this to match your
             // locale
-            //tts.setLanguage( Locale.ENGLISH);
             tts.setLanguage(Locale.getDefault());
             ready = true;
         } else {

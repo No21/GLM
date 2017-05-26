@@ -17,6 +17,11 @@ public class Info extends AppCompatActivity {
         setContentView(R.layout.activity_info);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
 
     public void retourAppli(View v){
         this.finish();

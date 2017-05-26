@@ -4,10 +4,11 @@
     <string name="numero">Number</string>
     <string name="none">---</string>
     <string name="messageDe">Message from : </string>
+    <string name="noMessage"> </string>
+    <string name="rep">Repeat</string>
 
     <string name="pref">Preferencies</string>
     <string name="notification">SMS reading</string>
-
     <string name="name">GLM</string>
 
     <string name="start_speaking">"Hello! I am ready to read your SMS!"</string>

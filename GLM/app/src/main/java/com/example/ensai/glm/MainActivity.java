@@ -15,9 +15,14 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.telephony.SmsMessage;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -44,15 +49,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView smsText;
     private TextView smsSender;
     private  String senderNum;
-    private  String sender;
+    private  String sender = "---";
+    private Button repeat;
     // je stocke le sms pur pouvoir le répéter dans le main
-    //private  String sms;
+    private  String sms;
 
     private BroadcastReceiver smsReceiver;
 
     private Lecteur speaker;
+    private TextToSpeech tts;
 
     public int ID_NOTIFICATION = 0;
+
 
 
     @Override
@@ -62,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         bouton = (Switch)findViewById(R.id.boutonSwitch);
         smsText = (TextView)findViewById(R.id.sms_text);
+        smsText.setMovementMethod(new ScrollingMovementMethod());
         smsSender = (TextView)findViewById(R.id.sms_sender);
+        repeat= (Button)findViewById( R.id.repeter );
 
         toggleListener = new CompoundButton.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -81,15 +91,20 @@ public class MainActivity extends AppCompatActivity {
         };
         bouton.setOnCheckedChangeListener(toggleListener);
 
+
         checkTTS();
         initializeSMSReceiver();
         registerSMSReceiver();
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume() {
         super.onResume();
+        smsSender.setText(getResources().getString(R.string.messageDe)+" " + sender );
+        repeat.setText( getString( R.string.rep ) );
+        speaker = new Lecteur( this );
+
     }
 
     @Override
@@ -137,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
                 sender = getContactName(smsMessage[0].getDisplayOriginatingAddress());
 
                 speaker.pause(LONG_DURATION);
-                speaker.speak(R.string.messageDe + sender);
+                speaker.speak(getResources().getString(R.string.messageDe) + sender);
                 speaker.pause(SHORT_DURATION);
                 speaker.speak(allMessage);
 
-                smsSender.setText(R.string.messageDe + sender);
+                smsSender.setText(getResources().getString(R.string.messageDe)+" " + sender);
                 smsText.setText(allMessage);
-                //sms=allMessage;
+                sms=allMessage;
 
             }
         };
@@ -181,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         mNotification.notify(ID_NOTIFICATION, builder.build());
     }
 
+
     // pour supprimer une notification
     private void deleteNotification(){
         final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -197,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Info.class);
         startActivity(intent);
     }
-
 
 
     @Override
@@ -223,14 +238,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/*
-    //pour répéter
-    public void repeteSMS(){
-        speaker.speak("Message de" + sender);
-        speaker.pause(SHORT_DURATION);
-        speaker.speak(sms);
 
-    }*/
+    //pour répéter
+    public void repeteSMS(View v){
+        speaker.allow(true);
+        speaker.speak(sms);
+    }
 
 
 

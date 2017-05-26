@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#BBACAC"
+                android:orientation="vertical"
     >
 
     <android.support.v7.widget.ActionBarContainer
@@ -10,46 +11,44 @@
         android:layout_height="match_parent"
         ></android.support.v7.widget.ActionBarContainer>
 
-
     <TextView
         android:id="@+id/sms_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/numero"
+        android:layout_margin="20dp"
+        android:text="@string/messageDe"
         android:textColor="#24445C"
         android:textStyle="italic"
         android:textAppearance="?android:attr/textAppearanceSmall"
         />
 
-    <TextView
-        android:id="@+id/sms_text"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollbar"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sms_sender"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/none"
+        android:layout_marginBottom="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#24445C"
         android:background="#CECECE"
-        />
+        android:layout_above="@+id/boutonSwitch"
+        android:scrollbars="vertical"
+        >
 
-    <Button
-        android:id="@+id/repeter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textColor="@android:color/black"
-        android:background="#BBACAC"
-        android:text="@string/rep"
-        android:textSize="6pt"
-        android:drawableBottom="@drawable/ic_replay_black_24dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:onClick="repeteSMS"/>
+        <TextView
+            android:id="@+id/sms_text"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/none"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#24445C"
+            android:background="#CECECE"
+
+            />
+    </ScrollView>
+
 
     <Switch
         android:layout_width="wrap_content"
@@ -58,9 +57,22 @@
         android:id="@+id/boutonSwitch"
         android:textStyle="bold"
         android:typeface="serif"
-        android:layout_marginBottom="151dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/repeter"/>
+    <Button
+        android:id="@+id/repeter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_margin="20dp"
+        android:textColor="@android:color/black"
+        android:background="#BBACAC"
+        android:text="@string/rep"
+        android:textSize="6pt"
+        android:drawableBottom="@drawable/ic_replay_black_24dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:onClick="repeteSMS"/>
 
 
 

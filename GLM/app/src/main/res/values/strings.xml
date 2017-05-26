@@ -4,6 +4,8 @@
     <string name="numero">Numéro</string>
     <string name="none">---</string>
     <string name="messageDe">Message de : </string>
+    <string name="noMessage"> </string>
+    <string name="rep">Répéter</string>
 
     <string name="pref">Préférences</string>
     <string name="notification">Lecture des messages en cours</string>
@@ -22,4 +24,5 @@
 
     <string name="info">Bonjour! \n\nMon nom est GLM! \nJe suis le Gestionnaire de Lecture de vos Messages, toujours prêt à faciliter votre quotidien.</string>
     <string name="propose">Proposé par No &amp; Jo</string>
+
 </resources>

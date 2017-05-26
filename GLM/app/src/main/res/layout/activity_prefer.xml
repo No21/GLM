@@ -25,14 +25,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/langueFR"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:checked="false"/>
 
         <RadioButton
             android:id="@+id/radioEN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/langueEN"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:checked="false"/>
 
     </RadioGroup>
 
