@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         smsSender.setText(getResources().getString(R.string.messageDe)+" " + sender );
         repeat.setText( getString( R.string.rep ) );
         speaker = new Lecteur( this );

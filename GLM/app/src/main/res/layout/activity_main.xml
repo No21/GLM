@@ -58,7 +58,9 @@
         android:textStyle="bold"
         android:typeface="serif"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/repeter"/>
+        android:layout_above="@+id/repeter"
+        android:textOn="ON"
+        android:textOff="OFF"/>
     <Button
         android:id="@+id/repeter"
         android:layout_width="wrap_content"
